@@ -1,7 +1,7 @@
 node {
         stage('clone') { 
             steps {
-		git clone 'https://github.com/porkanimal/helloworld.git'
+		sh "git clone https://github.com/porkanimal/helloworld.git"
             }
         }
         stage('build') { 
