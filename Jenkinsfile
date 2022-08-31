@@ -1,17 +1,26 @@
-node {
-        stage('clone') { 
+pipeline {
+    agent any
+    stages {
+        stage('Pull') {
             steps {
-		sh "git clone https://github.com/porkanimal/helloworld.git"
+                checkout([$class: 'GitSCM',
+                branches: [[name: '*/master']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [],
+                submoduleCfg: [],
+                userRemoteConfigs: [[url: 'https://github.com/priximmo/jenkins-helloworld.git']]])
+                sh "ls"
             }
         }
-        stage('build') { 
+        stage('Build') {
             steps {
-                sh label:'',script: "javac Main.java"
+                sh "javac Main.java"
             }
         }
-        stage('Deploy') { 
+        stage('Run') {
             steps {
-                sh label:'',script: "java Main"
+                sh "java Main"
             }
         }
+    }
 }
